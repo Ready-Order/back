@@ -8,9 +8,11 @@ dotenv.config();
 
 // 라우트 가져오기
 const indexRouter = require("./routes/indexRoute");
+const menuRouter = require("./routes/menuRoute");
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
-router.use("", indexRouter); //
+router.use("", indexRouter); // hello world
+router.use("/menus", menuRouter); // menu 관련 라우팅
 
 mongoose
   .connect(process.env.MONGODB_URL)
