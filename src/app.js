@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 
 const app = express();
 const router = express.Router(); // 경로 사용을 위한 라우터 사용
+router.use(express.json()); // body 사용 설정
 dotenv.config();
 
-// 라우트 가져오기
+// 사용자 정의 라우트 가져오기
 const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
 
