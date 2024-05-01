@@ -3,13 +3,14 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
 const app = express();
-const apiRouter = express.Router(); // 경로 사용을 위한 라우터 사용
+const router = express.Router(); // 경로 사용을 위한 라우터 사용
 dotenv.config();
 
+// 라우트 가져오기
 const indexRouter = require("./routes/indexRoute");
 
-app.use("/api", apiRouter); // 최상위 path를 "/api"로 지정하기
-apiRouter.use("", indexRouter);
+app.use("/api", router); // 최상위 path를 "/api"로 지정하기
+router.use("", indexRouter); //
 
 mongoose
   .connect(process.env.MONGODB_URL)
