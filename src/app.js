@@ -12,9 +12,11 @@ const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
+
 router.use("", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅
 
+// mongoose db연결
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {

@@ -4,14 +4,16 @@ const router = express.Router();
 const {
   createMenuItem,
   getAllMenuItems,
+  getMenuItem,
   updateMenuItem,
   deleteMenuItem,
 } = require("../controller/menuController");
 
-/* /menus */
+/*  "/menus"  */
 router.post("/", createMenuItem); // create
 router.get("/", getAllMenuItems); // read
-router.put("/", updateMenuItem); // update
-router.delete("/", deleteMenuItem); // delete
+router.get("/:menuItemId", getMenuItem); // read
+router.put("/:menuItemId", updateMenuItem); // update
+router.delete("/:menuItemId", deleteMenuItem); // delete
 
 module.exports = router;
