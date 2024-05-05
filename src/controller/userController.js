@@ -36,6 +36,7 @@ const join = async (req, res) => {
     name,
     email,
     password,
+    menus: [],
   });
 
   try {
