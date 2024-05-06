@@ -6,7 +6,7 @@ const menuSchema = new Schema({
   title: { type: String, required: true },
   image_url: { type: String, required: true },
   price: { type: Number, required: true },
-  creator: { type: String, required: true },
+  creator: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
 });
 
 module.exports = mongoose.model("Menu", menuSchema);

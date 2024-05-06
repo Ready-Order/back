@@ -10,11 +10,13 @@ dotenv.config();
 // 사용자 정의 라우트 가져오기
 const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
+const userRouter = require("./routes/userRoute");
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
 router.use("", indexRouter); // hello world
-router.use("/menus", menuRouter); // menu 관련 라우팅
+router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
+router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
 
 // mongoose db연결
 mongoose

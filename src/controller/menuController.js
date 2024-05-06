@@ -1,18 +1,35 @@
 const StatusCodes = require("http-status-codes");
+const mongoose = require("mongoose");
 
 const MenuItem = require("../models/menuItem");
+const User = require("../models/user");
 
 const createMenuItem = async (req, res) => {
-  const { title, price, image_url } = req.body;
+  const { title, price, image_url, creator } = req.body;
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
     image_url: "https://picsum.photos/200",
-    creator: "kimdaekyu",
+    creator,
   });
 
+  let user;
+
   try {
-    await createdMenuItem.save();
+    user = await User.findById(creator);
+  } catch (err) {
+    console.log(err);
+    console.log("😇");
+    return res.status(500).json(err);
+  }
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction(); // 세션을 이용해서 트랙색션을 사용한다
+    await createdMenuItem.save({ session: sess });
+    user.menuItems.push(createdMenuItem);
+    await user.save({ session: sess });
+    await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
   } catch (err) {
     console.log(err);
     console.log("😇");
@@ -82,7 +99,22 @@ const deleteMenuItem = async (req, res) => {
 
   let menuItem;
   try {
-    menuItem = await MenuItem.findByIdAndDelete(menuItemId);
+    menuItem = await MenuItem.findById(menuItemId).populate("creator");
+  } catch (err) {
+    console.log(err);
+    console.log("😇");
+    return res.status(500).json(err);
+  }
+
+  console.log(menuItem);
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await menuItem.deleteOne({ session: sess });
+    menuItem.creator.menuItems.pull(menuItemId);
+    await menuItem.creator.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
     console.log(err);
     console.log("😇");
