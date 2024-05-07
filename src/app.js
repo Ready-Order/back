@@ -12,12 +12,24 @@ const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
 const userRouter = require("./routes/userRoute");
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+
+  next();
+});
+
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
 router.use("", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
 
+console.log(process.env.MONGODB_URL);
 // mongoose db연결
 mongoose
   .connect(process.env.MONGODB_URL)
