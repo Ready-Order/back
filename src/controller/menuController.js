@@ -5,12 +5,12 @@ const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
 const createMenuItem = async (req, res) => {
-  const { title, price, image_url, creator, tags } = req.body;
+  const { title, price, image_url, creator, tag } = req.body;
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
     image_url: "https://picsum.photos/200",
-    tags: tags,
+    tag: tag,
     creator,
   });
 
