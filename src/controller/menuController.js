@@ -5,11 +5,12 @@ const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
 const createMenuItem = async (req, res) => {
-  const { title, price, image_url, creator } = req.body;
+  const { title, price, image_url, creator, tags } = req.body;
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
     image_url: "https://picsum.photos/200",
+    tags: tags,
     creator,
   });
 
@@ -67,7 +68,7 @@ const getMenuItem = async (req, res) => {
 
 const updateMenuItem = async (req, res) => {
   const { menuItemId } = req.params;
-  let { title, image_url, price } = req.body;
+  let { title, image_url, price, tags } = req.body;
   price = parseInt(price);
 
   let menuItem;
@@ -82,6 +83,7 @@ const updateMenuItem = async (req, res) => {
   menuItem.title = title;
   menuItem.image_url = image_url;
   menuItem.price = price;
+  menuItem.tags = tags;
 
   try {
     await menuItem.save();
