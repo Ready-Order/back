@@ -4,7 +4,7 @@ const { HttpError, simpleServerError } = require("../models/http-error");
 const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
-const createMenuItem = async (req, res) => {
+const createMenuItem = async (req, res, next) => {
   const { title, price, image_url, creator, tag } = req.body;
   const createdMenuItem = new MenuItem({
     title: title,
@@ -36,7 +36,7 @@ const createMenuItem = async (req, res) => {
   res.status(201).json({ menuItem: createdMenuItem });
 };
 
-const getAllMenuItems = async (req, res) => {
+const getAllMenuItems = async (req, res, next) => {
   let menuItems;
   try {
     menuItems = await MenuItem.find();
@@ -46,7 +46,7 @@ const getAllMenuItems = async (req, res) => {
   res.status(200).json(menuItems);
 };
 
-const getMenuItem = async (req, res) => {
+const getMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
 
   let menuItem;
@@ -58,7 +58,7 @@ const getMenuItem = async (req, res) => {
   return res.json({ menuItem });
 };
 
-const updateMenuItem = async (req, res) => {
+const updateMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
   let { title, image_url, price, tags } = req.body;
   price = parseInt(price);
@@ -84,7 +84,7 @@ const updateMenuItem = async (req, res) => {
   res.status(200).json({ menuItem: menuItem.toObject({ getters: true }) });
 };
 
-const deleteMenuItem = async (req, res) => {
+const deleteMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
 
   let menuItem;

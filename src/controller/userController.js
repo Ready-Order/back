@@ -54,7 +54,7 @@ const login = async (req, res, next) => {
   });
 };
 
-const join = async (req, res) => {
+const join = async (req, res, next) => {
   const { name, email, password } = req.body;
 
   let existingUser;
@@ -113,6 +113,6 @@ const join = async (req, res) => {
   });
 };
 
-const getUsers = async (req, res) => {};
+const getUsers = async (req, res, next) => {};
 
 module.exports = { login, join };
