@@ -29,7 +29,6 @@ router.use("", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
 
-console.log(process.env.MONGODB_URL);
 // mongoose db연결
 mongoose
   .connect(process.env.MONGODB_URL)

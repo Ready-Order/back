@@ -1,4 +1,5 @@
 const StatusCodes = require("http-status-codes");
+const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
 
@@ -6,9 +7,16 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const existingUser = await User.findOne({ email: email });
 
-  // email이 존재하고 비밀번호가 같으면 로그인
-  console.log(existingUser);
-  if (existingUser && existingUser.password === password) {
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password);
+  } catch (err) {
+    console.log(err);
+    console.log("😇");
+    return res.status(500).json({ message: "server error" });
+  }
+
+  if (isValidPassword) {
     return res.json({ message: "Logged in!" });
   } else {
     // 둘 중 하나이상 잘못되었다면
@@ -32,10 +40,19 @@ const join = async (req, res) => {
     return res.status(422).json({ message: "user already exist" });
   }
 
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    console.log(err);
+    console.log("😇");
+    return res.status(500).json({ message: "server error" });
+  }
+
   const createdUser = new User({
     name,
     email,
-    password,
+    password: hashedPassword,
     menus: [],
   });
 
