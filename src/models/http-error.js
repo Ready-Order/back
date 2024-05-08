@@ -5,4 +5,9 @@ class HttpError extends Error {
   }
 }
 
-module.exports = HttpError;
+const simpleServerError = new HttpError("서버가 . 잠시후 시도해주세요.", 500);
+
+module.exports = {
+  HttpError,
+  simpleServerError,
+};

@@ -1,6 +1,6 @@
-const StatusCodes = require("http-status-codes");
 const mongoose = require("mongoose");
 
+const { HttpError, simpleServerError } = require("../models/http-error");
 const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
@@ -19,9 +19,7 @@ const createMenuItem = async (req, res) => {
   try {
     user = await User.findById(creator);
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   try {
@@ -32,12 +30,10 @@ const createMenuItem = async (req, res) => {
     await user.save({ session: sess });
     await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
-  res.status(StatusCodes.CREATED).json({ menuItem: createdMenuItem });
+  res.status(201).json({ menuItem: createdMenuItem });
 };
 
 const getAllMenuItems = async (req, res) => {
@@ -45,11 +41,9 @@ const getAllMenuItems = async (req, res) => {
   try {
     menuItems = await MenuItem.find();
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
-  res.status(StatusCodes.OK).json(menuItems);
+  res.status(200).json(menuItems);
 };
 
 const getMenuItem = async (req, res) => {
@@ -59,9 +53,7 @@ const getMenuItem = async (req, res) => {
   try {
     menuItem = await MenuItem.findById(menuItemId);
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
   return res.json({ menuItem });
 };
@@ -75,9 +67,7 @@ const updateMenuItem = async (req, res) => {
   try {
     menuItem = await MenuItem.findById(menuItemId);
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   menuItem.title = title;
@@ -88,9 +78,7 @@ const updateMenuItem = async (req, res) => {
   try {
     await menuItem.save();
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   res.status(200).json({ menuItem: menuItem.toObject({ getters: true }) });
@@ -103,9 +91,7 @@ const deleteMenuItem = async (req, res) => {
   try {
     menuItem = await MenuItem.findById(menuItemId).populate("creator");
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   console.log(menuItem);
@@ -118,9 +104,7 @@ const deleteMenuItem = async (req, res) => {
     await menuItem.creator.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   res.status(200).json({ message: "Deleted place.", menuItemId: menuItem._id });

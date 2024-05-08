@@ -29,6 +29,20 @@ router.use("", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
 
+// 오류 처리 미들웨어
+app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
+  if (res.headerSent) {
+    return next(error);
+  }
+  res.status(error.code || 500);
+  res.json({ message: error.message || "An unknown error occurred!" });
+});
+
 // mongoose db연결
 mongoose
   .connect(process.env.MONGODB_URL)
