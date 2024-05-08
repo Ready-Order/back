@@ -1,7 +1,10 @@
 const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 
 const { HttpError, simpleServerError } = require("../models/http-error");
 const User = require("../models/user");
+dotenv.config();
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -27,9 +30,27 @@ const login = async (req, res, next) => {
     return next(loginError);
   }
 
+  let token;
+  try {
+    token = jwt.sign(
+      { name: existingUser.name, email: existingUser.email },
+      process.env.JWT_PK,
+      {
+        expiresIn: "1h",
+      }
+    );
+  } catch (err) {
+    const error = new HttpError(
+      "로그인에 실패했습니다. 잠시후 시도해주세요",
+      500
+    );
+    return next(error);
+  }
+
   res.json({
-    message: "Logged in!",
-    user: existingUser.toObject({ getters: true }),
+    userId: existingUser.id,
+    email: existingUser.email,
+    token: token,
   });
 };
 
@@ -68,7 +89,28 @@ const join = async (req, res) => {
     return next(simpleServerError);
   }
 
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+  let token;
+  try {
+    token = jwt.sign(
+      { name: createdUser.name, email: createdUser.email },
+      process.env.JWT_PK,
+      {
+        expiresIn: "1h",
+      }
+    );
+  } catch (err) {
+    const error = new HttpError(
+      "회원가입 오류입니다. 잠시후 시도해주세요",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(201).json({
+    user: createdUser.toObject({ getters: true }),
+    email: createdUser.email,
+    token: token,
+  });
 };
 
 const getUsers = async (req, res) => {};
