@@ -3,16 +3,14 @@ const router = express.Router();
 
 const {
   createMenuItem,
-  getAllMenuItems,
-  getMenuItem,
+  getMenuItemsByUserId,
   updateMenuItem,
   deleteMenuItem,
 } = require("../controller/menuController");
 const checkAuth = require("../middleware/checkAuth");
 
 /*  "/menus"  */
-router.get("/", getAllMenuItems); // read
-router.get("/:menuItemId", getMenuItem); // read
+router.get("/:userId", getMenuItemsByUserId); // read
 
 // authorization //
 router.use(checkAuth);
