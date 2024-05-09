@@ -4,26 +4,17 @@ const { HttpError, simpleServerError } = require("../models/http-error");
 const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
-const getAllMenuItems = async (req, res, next) => {
+const getMenuItemsByUserId = async (req, res, next) => {
+  // by id
+  const { userId } = req.params;
+
   let menuItems;
   try {
-    menuItems = await MenuItem.find();
+    menuItems = await MenuItem.find({ creator: userId });
   } catch (err) {
     return next(simpleServerError);
   }
   res.status(200).json(menuItems);
-};
-
-const getMenuItem = async (req, res, next) => {
-  const { menuItemId } = req.params;
-
-  let menuItem;
-  try {
-    menuItem = await MenuItem.findById(menuItemId);
-  } catch (err) {
-    return next(simpleServerError);
-  }
-  return res.json({ menuItem });
 };
 
 /* 
@@ -128,8 +119,7 @@ const deleteMenuItem = async (req, res, next) => {
 
 module.exports = {
   createMenuItem,
-  getAllMenuItems,
-  getMenuItem,
+  getMenuItemsByUserId,
   updateMenuItem,
   deleteMenuItem,
 };
