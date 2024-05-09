@@ -18,17 +18,21 @@ const getMenuItemsByUserId = async (req, res, next) => {
 };
 
 /* 
-need jwt 
+라우터에 의해서 jwt가 있어야 접근할 수 있습니다.
 jwt 형태 = req -> { TK_id: mongoDB_objectID, TK_email: User-email }
 */
 const createMenuItem = async (req, res, next) => {
-  const { title, price, image_url, creator, tag } = req.body;
+  const { title, price, image_url, creator, tag, category, available } =
+    req.body;
+
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
     image_url: "https://picsum.photos/200",
     tag: tag,
-    creator,
+    creator: creator,
+    category: category,
+    available: available,
   });
 
   if (createdMenuItem.creator !== req.userData.TK_id) {
@@ -59,7 +63,7 @@ const createMenuItem = async (req, res, next) => {
 
 const updateMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
-  let { title, image_url, price, tags } = req.body;
+  let { title, price, image_url, tag, category, available } = req.body;
   price = parseInt(price);
 
   let menuItem;
@@ -77,7 +81,9 @@ const updateMenuItem = async (req, res, next) => {
   menuItem.title = title;
   menuItem.image_url = image_url;
   menuItem.price = price;
-  menuItem.tags = tags;
+  menuItem.tags = tag;
+  menuItem.category = category;
+  menuItem.available = available;
 
   try {
     await menuItem.save();
