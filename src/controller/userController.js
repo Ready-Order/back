@@ -33,7 +33,7 @@ const login = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { name: existingUser.name, email: existingUser.email },
+      { TK_id: existingUser.id, TK_email: existingUser.email },
       process.env.JWT_PK,
       {
         expiresIn: "1h",
@@ -92,7 +92,7 @@ const join = async (req, res, next) => {
   let token;
   try {
     token = jwt.sign(
-      { name: createdUser.name, email: createdUser.email },
+      { TK_id: createdUser.id, TK_email: createdUser.email },
       process.env.JWT_PK,
       {
         expiresIn: "1h",
