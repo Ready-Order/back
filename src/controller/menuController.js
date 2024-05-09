@@ -1,10 +1,36 @@
-const StatusCodes = require("http-status-codes");
 const mongoose = require("mongoose");
 
+const { HttpError, simpleServerError } = require("../models/http-error");
 const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
-const createMenuItem = async (req, res) => {
+const getAllMenuItems = async (req, res, next) => {
+  let menuItems;
+  try {
+    menuItems = await MenuItem.find();
+  } catch (err) {
+    return next(simpleServerError);
+  }
+  res.status(200).json(menuItems);
+};
+
+const getMenuItem = async (req, res, next) => {
+  const { menuItemId } = req.params;
+
+  let menuItem;
+  try {
+    menuItem = await MenuItem.findById(menuItemId);
+  } catch (err) {
+    return next(simpleServerError);
+  }
+  return res.json({ menuItem });
+};
+
+/* 
+need jwt 
+jwt 형태 = req -> { TK_id: mongoDB_objectID, TK_email: User-email }
+*/
+const createMenuItem = async (req, res, next) => {
   const { title, price, image_url, creator, tag } = req.body;
   const createdMenuItem = new MenuItem({
     title: title,
@@ -14,14 +40,16 @@ const createMenuItem = async (req, res) => {
     creator,
   });
 
-  let user;
+  if (createdMenuItem.creator !== req.userData.TK_id) {
+    const error = new HttpError("Not your property", 403);
+    return next(error);
+  }
 
+  let user;
   try {
     user = await User.findById(creator);
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   try {
@@ -32,41 +60,13 @@ const createMenuItem = async (req, res) => {
     await user.save({ session: sess });
     await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
-  res.status(StatusCodes.CREATED).json({ menuItem: createdMenuItem });
+  res.status(201).json({ menuItem: createdMenuItem });
 };
 
-const getAllMenuItems = async (req, res) => {
-  let menuItems;
-  try {
-    menuItems = await MenuItem.find();
-  } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
-  }
-  res.status(StatusCodes.OK).json(menuItems);
-};
-
-const getMenuItem = async (req, res) => {
-  const { menuItemId } = req.params;
-
-  let menuItem;
-  try {
-    menuItem = await MenuItem.findById(menuItemId);
-  } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
-  }
-  return res.json({ menuItem });
-};
-
-const updateMenuItem = async (req, res) => {
+const updateMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
   let { title, image_url, price, tags } = req.body;
   price = parseInt(price);
@@ -75,9 +75,12 @@ const updateMenuItem = async (req, res) => {
   try {
     menuItem = await MenuItem.findById(menuItemId);
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
+  }
+
+  if (menuItem.creator !== req.userData.TK_id) {
+    const error = new HttpError("Not your property", 403);
+    return next(error);
   }
 
   menuItem.title = title;
@@ -88,27 +91,26 @@ const updateMenuItem = async (req, res) => {
   try {
     await menuItem.save();
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   res.status(200).json({ menuItem: menuItem.toObject({ getters: true }) });
 };
 
-const deleteMenuItem = async (req, res) => {
+const deleteMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
 
   let menuItem;
   try {
-    menuItem = await MenuItem.findById(menuItemId).populate("creator");
+    menuItem = await MenuItem.findById(menuItemId).populate("creator"); // creator와 ref되어 있는 도큐먼트
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
-  console.log(menuItem);
+  if (menuItem.creator !== req.userData.TK_id) {
+    const error = new HttpError("Not your property", 403);
+    return next(error);
+  }
 
   try {
     const sess = await mongoose.startSession();
@@ -118,9 +120,7 @@ const deleteMenuItem = async (req, res) => {
     await menuItem.creator.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log(err);
-    console.log("😇");
-    return res.status(500).json(err);
+    return next(simpleServerError);
   }
 
   res.status(200).json({ message: "Deleted place.", menuItemId: menuItem._id });
