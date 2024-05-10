@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
+const cors = require("cors");
 const app = express();
 const router = express.Router(); // 경로 사용을 위한 라우터 사용
 router.use(express.json()); // body 사용 설정
@@ -11,7 +11,6 @@ dotenv.config();
 const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
 const userRouter = require("./routes/userRoute");
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -22,6 +21,13 @@ app.use((req, res, next) => {
 
   next();
 });
+
+let corsOptions = {
+  origin: "*", // 출처 허용 옵션
+  credential: true, // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
+};
+
+app.use(cors(corsOptions));
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
