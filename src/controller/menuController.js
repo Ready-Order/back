@@ -5,15 +5,35 @@ const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
 const getMenuItemsByUserId = async (req, res, next) => {
+  // 1. 카테고리 가져오기
+  // 2. 동적 키 생성 및 메뉴 넣기
   const { userId } = req.params;
 
+  // 카테고리 가져오기
   let menuItems;
   try {
     menuItems = await MenuItem.find({ creator: userId });
   } catch (err) {
+    console.log(err);
     return next(simpleServerError);
   }
-  res.status(200).json(menuItems);
+
+  let uniqueCategories = new Set();
+  let menusByCategory = {};
+  console.log(menuItems);
+  menuItems.forEach((element) => {
+    if (menusByCategory[element.category]) {
+      menusByCategory[element.category].push(element);
+    } else {
+      menusByCategory[element.category] = [element];
+    }
+    uniqueCategories.add(element.category);
+  });
+
+  res.status(200).json({
+    categories: [...uniqueCategories],
+    menus: menusByCategory,
+  });
 };
 
 const getCategoriesByUserId = async (req, res, next) => {
