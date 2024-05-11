@@ -8,7 +8,7 @@ const menuSchema = new Schema({
   price: { type: Number, required: true },
   tag: { type: String, required: false },
   creator: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
-  categoty: { type: String, required: false },
+  category: { type: String, required: false },
   available: { type: Boolean, default: true },
 });
 

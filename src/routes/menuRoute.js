@@ -2,15 +2,19 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  createMenuItem,
   getMenuItemsByUserId,
+  getCategoriesByUserId,
+  updateAllMenuItemsByUserId,
+  createMenuItem,
   updateMenuItem,
   deleteMenuItem,
 } = require("../controller/menuController");
 const checkAuth = require("../middleware/checkAuth");
 
-/*  "/menus"  */
+// == "/menus" == //
 router.get("/:userId", getMenuItemsByUserId); // read
+router.get("/categories/:userId", getCategoriesByUserId); // read
+router.get("/update-demo/:userId", updateAllMenuItemsByUserId); // read
 
 // authorization //
 router.use(checkAuth);

@@ -5,7 +5,6 @@ const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
 const getMenuItemsByUserId = async (req, res, next) => {
-  // by id
   const { userId } = req.params;
 
   let menuItems;
@@ -15,6 +14,58 @@ const getMenuItemsByUserId = async (req, res, next) => {
     return next(simpleServerError);
   }
   res.status(200).json(menuItems);
+};
+
+const getCategoriesByUserId = async (req, res, next) => {
+  const { userId } = req.params;
+
+  let menuItems;
+  try {
+    menuItems = await MenuItem.find({ creator: userId });
+  } catch (err) {
+    console.log(err);
+    return next(simpleServerError);
+  }
+
+  let uniqueCategories = new Set();
+  console.log(menuItems);
+  menuItems.forEach((element) => {
+    uniqueCategories.add(element.category);
+  });
+
+  res.status(200).json({ categories: [...uniqueCategories] });
+};
+
+// 모든 document에 category와 available 필드를 넣기 위한 컨트롤러
+const updateAllMenuItemsByUserId = async (req, res, next) => {
+  const { userId } = req.params;
+
+  let menuItems;
+  try {
+    menuItems = await MenuItem.find({ creator: userId });
+  } catch (err) {
+    console.log(err);
+    return next(simpleServerError);
+  }
+
+  let uniqueCategories;
+  uniqueCategories = menuItems.map((item) => item.title);
+
+  let menuItem;
+  await uniqueCategories.forEach(async (element) => {
+    menuItem = await MenuItem.find({ title: element });
+
+    menuItem[0].category = "main food";
+    menuItem[0].available = true;
+
+    try {
+      await menuItem[0].save();
+    } catch (err) {
+      return next(simpleServerError);
+    }
+  });
+
+  return getCategoriesByUserId(req, res, next);
 };
 
 /* 
@@ -124,8 +175,10 @@ const deleteMenuItem = async (req, res, next) => {
 };
 
 module.exports = {
-  createMenuItem,
   getMenuItemsByUserId,
+  getCategoriesByUserId,
+  updateAllMenuItemsByUserId,
+  createMenuItem,
   updateMenuItem,
   deleteMenuItem,
 };
