@@ -11,6 +11,8 @@ dotenv.config();
 const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
 const userRouter = require("./routes/userRoute");
+const orderRouter = require("./routes/orderRoute");
+// 헤더 설정?
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -34,6 +36,7 @@ app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 router.use("", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
+router.use("/orders", orderRouter); // orders 관련 라우팅 (주문하기, 주문내역)
 
 // 오류 처리 미들웨어
 app.use((error, req, res, next) => {
