@@ -10,8 +10,7 @@ const placeOrder = async (req, res, next) => {
 
   let order;
   try {
-    order = await Order.find({ tableNumber: tableNumber });
-    order = order[0];
+    order = await Order.findOne({ tableNumber: tableNumber });
   } catch (err) {
     return next(simpleServerError);
   }
@@ -32,8 +31,6 @@ const placeOrder = async (req, res, next) => {
     }
   });
 
-  console.log(order);
-
   // 저장...?
   let updatedOrder;
   try {
@@ -43,18 +40,40 @@ const placeOrder = async (req, res, next) => {
     return next(simpleServerError);
   }
 
-  return res.json(updatedOrder);
+  return res.status(201).json(updatedOrder);
 };
 
 const getOrderHistory = (req, res, next) => {
+  // figma 상에서는 구현이 필요없는 부분이라 보륜
   return res.json("getOrderHistory");
 };
 
-const resetTable = (req, res, next) => {
-  return res.json("resetTable");
+const resetTable = async (req, res, next) => {
+  // 테이블 초기화
+  const { tableNumber } = req.params;
+
+  // 가져와서 초기화하기
+  let currentTable;
+  try {
+    currentTable = await Order.findOne({ tableNumber: tableNumber });
+  } catch (err) {
+    next(simpleServerError);
+  }
+  currentTable.orders = [];
+  currentTable.bill = new Map([["price", 0]]);
+
+  try {
+    await currentTable.save();
+  } catch (err) {
+    return next(simpleServerError);
+  }
+  return res
+    .status(200)
+    .json({ message: tableNumber + "번 테이블 초기화 완료." });
 };
 
 const getBill = (req, res, next) => {
+  // 주문한 메뉴와 총 가격 가져오기
   return res.json("getBill");
 };
 
