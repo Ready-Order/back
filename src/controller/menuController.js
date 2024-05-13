@@ -122,7 +122,7 @@ const createMenuItem = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction(); // 세션을 이용해서 트랙색션을 사용한다
     await createdMenuItem.save({ session: sess });
-    user.menuItems.push(createdMenuItem);
+    user.menuItems.push(createdMenuItem); // user의 menuItems에 createdMenuItem객체의 id를 밀어넣는다.
     await user.save({ session: sess });
     await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
   } catch (err) {
