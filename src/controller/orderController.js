@@ -19,24 +19,35 @@ const placeOrder = async (req, res, next) => {
   order.orders.push(...orders);
 
   // bill에 메뉴별 갯수 종합하기
-  console.log(order);
-  orders.forEach((val, idx) => {
-    const menuQuantity = order.bill.get(val.menuItemId);
-    if (menuQuantity) {
-      console.log(idx + " : true");
-      order.bill.set(val.menuItemId, menuQuantity + val.quantity);
-    } else {
-      console.log(idx + " : false");
-      order.bill.set(val.menuItemId, val.quantity);
+  for (const val of orders) {
+    let menuItemInfo;
+    try {
+      menuItemInfo = await MenuItem.findById(val.menuItemId); // 메뉴 가격을 가져오기 위해
+    } catch (err) {
+      console.log(err);
+      return next(new HttpError("forEach안에서 발생한 오류", 500));
     }
-  });
+
+    const originalMenuQuantity = order.bill.get(val.menuItemId); //원래 주문했던 메뉴 갯수
+    const placedMenuQuantity = val.quantity;
+    /* menuItemId에서 가격을 가져와서 price에 더하자 */
+    if (originalMenuQuantity) {
+      order.bill.set(val.menuItemId, originalMenuQuantity + placedMenuQuantity);
+    } else {
+      order.bill.set(val.menuItemId, placedMenuQuantity);
+    }
+    // bill.price에 가격 추가하기
+    order.bill.set(
+      "price",
+      order.bill.get("price") + menuItemInfo.price * val.quantity
+    );
+  }
 
   // 저장...?
   let updatedOrder;
   try {
     updatedOrder = await order.save();
   } catch (err) {
-    console.log(err);
     return next(simpleServerError);
   }
 

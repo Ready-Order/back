@@ -170,7 +170,7 @@ const deleteMenuItem = async (req, res, next) => {
 
   let menuItem;
   try {
-    menuItem = await MenuItem.findById(menuItemId).populate("creator"); // creator와 ref되어 있는 도큐먼트
+    menuItem = await MenuItem.findById(menuItemId).populate("creator"); // creator와 ref되어 있는 도큐먼트를 붙여서 가져온다.
   } catch (err) {
     return next(simpleServerError);
   }
