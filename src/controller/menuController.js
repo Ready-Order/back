@@ -64,7 +64,6 @@ const updateAllMenuItemsByUserId = async (req, res, next) => {
   try {
     menuItems = await MenuItem.find({ creator: userId });
   } catch (err) {
-    console.log(err);
     return next(simpleServerError);
   }
 
@@ -175,7 +174,7 @@ const deleteMenuItem = async (req, res, next) => {
     return next(simpleServerError);
   }
 
-  if (menuItem.creator !== req.userData.TK_id) {
+  if (menuItem.creator.id !== req.userData.TK_id) {
     const error = new HttpError("Not your property", 403);
     return next(error);
   }
