@@ -64,7 +64,6 @@ const updateAllMenuItemsByUserId = async (req, res, next) => {
   try {
     menuItems = await MenuItem.find({ creator: userId });
   } catch (err) {
-    console.log(err);
     return next(simpleServerError);
   }
 
@@ -122,7 +121,7 @@ const createMenuItem = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction(); // 세션을 이용해서 트랙색션을 사용한다
     await createdMenuItem.save({ session: sess });
-    user.menuItems.push(createdMenuItem);
+    user.menuItems.push(createdMenuItem); // user의 menuItems에 createdMenuItem객체의 id를 밀어넣는다.
     await user.save({ session: sess });
     await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
   } catch (err) {
@@ -170,12 +169,12 @@ const deleteMenuItem = async (req, res, next) => {
 
   let menuItem;
   try {
-    menuItem = await MenuItem.findById(menuItemId).populate("creator"); // creator와 ref되어 있는 도큐먼트
+    menuItem = await MenuItem.findById(menuItemId).populate("creator"); // creator와 ref되어 있는 도큐먼트를 붙여서 가져온다.
   } catch (err) {
     return next(simpleServerError);
   }
 
-  if (menuItem.creator !== req.userData.TK_id) {
+  if (menuItem.creator.id !== req.userData.TK_id) {
     const error = new HttpError("Not your property", 403);
     return next(error);
   }
