@@ -105,7 +105,7 @@ const createMenuItem = async (req, res, next) => {
     available: available,
   });
 
-  if (createdMenuItem.creator !== req.userData.TK_id) {
+  if (createdMenuItem.creator.toString() !== req.userData.TK_id) {
     const error = new HttpError("Not your property", 403);
     return next(error);
   }
@@ -143,7 +143,7 @@ const updateMenuItem = async (req, res, next) => {
     return next(simpleServerError);
   }
 
-  if (menuItem.creator !== req.userData.TK_id) {
+  if (menuItem.creator.toString() !== req.userData.TK_id) {
     const error = new HttpError("Not your property", 403);
     return next(error);
   }
