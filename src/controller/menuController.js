@@ -20,7 +20,6 @@ const getMenuItemsByUserId = async (req, res, next) => {
 
   let uniqueCategories = new Set();
   let menusByCategory = {};
-  console.log(menuItems);
   menuItems.forEach((element) => {
     if (menusByCategory[element.category]) {
       menusByCategory[element.category].push(element);
@@ -117,14 +116,18 @@ const createMenuItem = async (req, res, next) => {
     return next(simpleServerError);
   }
 
+  const sess = await mongoose.startSession();
   try {
-    const sess = await mongoose.startSession();
     sess.startTransaction(); // 세션을 이용해서 트랙색션을 사용한다
     await createdMenuItem.save({ session: sess });
     user.menuItems.push(createdMenuItem); // user의 menuItems에 createdMenuItem객체의 id를 밀어넣는다.
     await user.save({ session: sess });
     await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
+    session.endSession();
   } catch (err) {
+    await sess.abortTransaction();
+    session.endSession();
+    ß;
     return next(simpleServerError);
   }
 
@@ -179,14 +182,17 @@ const deleteMenuItem = async (req, res, next) => {
     return next(error);
   }
 
+  const sess = await mongoose.startSession();
   try {
-    const sess = await mongoose.startSession();
     sess.startTransaction();
     await menuItem.deleteOne({ session: sess });
     menuItem.creator.menuItems.pull(menuItemId);
     await menuItem.creator.save({ session: sess });
     await sess.commitTransaction();
+    sess.endSession();
   } catch (err) {
+    await sess.abortTransaction();
+    sess.endSession();
     return next(simpleServerError);
   }
 
