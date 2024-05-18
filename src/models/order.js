@@ -18,6 +18,7 @@ orderSchema.plugin(uniqueValidator);
 
 /* 
 Bill :{
+  price :
   menuItemId : totalQuantity,
   menuItemId : totalQuantity
 }
