@@ -73,7 +73,6 @@ const resetTable = async (req, res, next) => {
   });
   
   // tableNumber삭제 후 새로 생성 (__v 관리를 위해)
-  const sess = await mongoose.startSession();
   try {
     let deleted = await Order.deleteOne({tableNumber:tableNumber});
     await newTable.save();
