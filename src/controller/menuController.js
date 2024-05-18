@@ -123,11 +123,10 @@ const createMenuItem = async (req, res, next) => {
     user.menuItems.push(createdMenuItem); // user의 menuItems에 createdMenuItem객체의 id를 밀어넣는다.
     await user.save({ session: sess });
     await sess.commitTransaction(); // commit Transaction을 사용해야 진짜 db에 저장된다.
-    session.endSession();
+    sess.endSession();
   } catch (err) {
     await sess.abortTransaction();
-    session.endSession();
-    ß;
+    sess.endSession();
     return next(simpleServerError);
   }
 
