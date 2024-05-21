@@ -6,6 +6,7 @@ const {
   getCategoriesByUserId,
   updateAllMenuItemsByUserId,
   createMenuItem,
+  updateAvailable,
   updateMenuItem,
   deleteMenuItem,
 } = require("../controller/menuController");
@@ -20,6 +21,7 @@ router.get("/update-demo/:userId", updateAllMenuItemsByUserId); // read
 router.use(checkAuth);
 // 보호 받는 라우터 //
 router.post("/", createMenuItem); // create
+router.put("/:menuItemId/available", updateAvailable); // update 
 router.put("/:menuItemId", updateMenuItem); // update
 router.delete("/:menuItemId", deleteMenuItem); // delete
 

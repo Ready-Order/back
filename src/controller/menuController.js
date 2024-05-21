@@ -133,6 +133,31 @@ const createMenuItem = async (req, res, next) => {
   res.status(201).json({ menuItem: createdMenuItem });
 };
 
+const updateAvailable = async (req, res, next) => {
+  const { menuItemId } = req.params;
+  const { available } = req.body;
+
+  let menuItem;
+  try {
+    menuItem = await MenuItem.findById(menuItemId);
+  } catch (err) {
+    console.log(err);
+    return next(simpleServerError);
+  }
+
+  menuItem.available = available;
+
+  let updatedItem;
+  try {
+    updatedItem = await menuItem.save();
+  } catch (err) {
+    console.log(err);
+    return next(simpleServerError);
+  }
+
+  return res.status(200).json(updatedItem);
+};
+
 const updateMenuItem = async (req, res, next) => {
   const { menuItemId } = req.params;
   let { title, price, image_url, tag, category, available } = req.body;
@@ -203,6 +228,7 @@ module.exports = {
   getCategoriesByUserId,
   updateAllMenuItemsByUserId,
   createMenuItem,
+  updateAvailable,
   updateMenuItem,
   deleteMenuItem,
 };
