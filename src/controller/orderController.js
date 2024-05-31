@@ -123,11 +123,14 @@ const getBill = async (req, res, next) => {
       } catch (err) {
         return next(simpleServerError);
       }
+      console.log(menuId, quantity)
+      console.log(gettedMenuItem)
       let detailTemp = [
         gettedMenuItem.title,
         gettedMenuItem.price,
         quantity,
         gettedMenuItem.price * quantity,
+        gettedMenuItem.image_url,
       ];
       billResult.get("detail").push(detailTemp);
     }
