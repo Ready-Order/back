@@ -47,7 +47,6 @@ const getCategoriesByUserId = async (req, res, next) => {
   }
 
   let uniqueCategories = new Set();
-  console.log(menuItems);
   menuItems.forEach((element) => {
     uniqueCategories.add(element.category);
   });
