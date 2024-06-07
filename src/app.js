@@ -12,28 +12,12 @@ const indexRouter = require("./routes/indexRoute");
 const menuRouter = require("./routes/menuRoute");
 const userRouter = require("./routes/userRoute");
 const orderRouter = require("./routes/orderRoute");
-// 헤더 설정?
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
 
-  next();
-});
-
-let corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
-router.use("", indexRouter); // hello world
+router.use("/", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
 router.use("/orders", orderRouter); // orders 관련 라우팅 (주문하기, 주문내역)
