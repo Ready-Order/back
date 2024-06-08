@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const fileUpload = require("../middleware/file-upload");
 const {
   getMenuItemsByUserId,
   getCategoriesByUserId,
@@ -20,8 +20,8 @@ router.get("/update-demo/:userId", updateAllMenuItemsByUserId); // read
 // authorization //
 router.use(checkAuth);
 // 보호 받는 라우터 //
-router.post("/", createMenuItem); // create
-router.put("/:menuItemId/available", updateAvailable); // update 
+router.post("/", fileUpload.single("image"), createMenuItem); // create
+router.put("/:menuItemId/available", updateAvailable); // update
 router.put("/:menuItemId", updateMenuItem); // update
 router.delete("/:menuItemId", deleteMenuItem); // delete
 
