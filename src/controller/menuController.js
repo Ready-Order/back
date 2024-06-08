@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-
 const { HttpError, simpleServerError } = require("../models/http-error");
 const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
+
+const CATEGORY = ["사이드", "메인", "음료", "주류", "etc", "시즌 메뉴"];
 
 const getMenuItemsByUserId = async (req, res, next) => {
   // 1. 카테고리 가져오기
@@ -29,8 +30,12 @@ const getMenuItemsByUserId = async (req, res, next) => {
     uniqueCategories.add(element.category);
   });
 
+  // res.status(200).json({
+  //   categories: [...uniqueCategories],
+  //   menus: menusByCategory,
+  // });
   res.status(200).json({
-    categories: [...uniqueCategories],
+    categories: CATEGORY,
     menus: menusByCategory,
   });
 };
@@ -51,7 +56,8 @@ const getCategoriesByUserId = async (req, res, next) => {
     uniqueCategories.add(element.category);
   });
 
-  res.status(200).json({ categories: [...uniqueCategories] });
+  //res.status(200).json({ categories: [...uniqueCategories] }); // 원본
+  res.status(200).json({ categories: CATEGORY }); // 카테고리 하드코딩
 };
 
 // 모든 document에 category와 available 필드를 넣기 위한 컨트롤러
@@ -96,7 +102,7 @@ const createMenuItem = async (req, res, next) => {
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
-    image_url: "https://picsum.photos/200",
+    image_url: res.file.path,
     tag: tag,
     creator: creator,
     category: category,
