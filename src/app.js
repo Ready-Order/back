@@ -17,6 +17,8 @@ app.use(cors());
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
+router.use("/src/uploads/images", express.static("src/uploads/images")); // 이미지 업로드 경로 설정
+
 router.use("", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)

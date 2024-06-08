@@ -102,7 +102,7 @@ const createMenuItem = async (req, res, next) => {
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
-    image_url: res.file.path,
+    image_url: req.file.path,
     tag: tag,
     creator: creator,
     category: category,
