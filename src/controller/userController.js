@@ -36,7 +36,7 @@ const login = async (req, res, next) => {
       { TK_id: existingUser.id, TK_email: existingUser.email },
       process.env.JWT_PK,
       {
-        expiresIn: "1h",
+        expiresIn: "24h",
       }
     );
   } catch (err) {
@@ -95,7 +95,7 @@ const join = async (req, res, next) => {
       { TK_id: createdUser.id, TK_email: createdUser.email },
       process.env.JWT_PK,
       {
-        expiresIn: "1h",
+        expiresIn: "24h",
       }
     );
   } catch (err) {
