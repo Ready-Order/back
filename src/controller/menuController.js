@@ -103,7 +103,7 @@ const createMenuItem = async (req, res, next) => {
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
-    image_url: "https://picsum.photos/200",
+    image_url: res.file.path,
     tag: tag,
     creator: creator,
     category: category,
