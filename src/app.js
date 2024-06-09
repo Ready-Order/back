@@ -7,7 +7,7 @@ const fs = require("fs");
 const app = express();
 const router = express.Router(); // 경로 사용을 위한 라우터 사용
 router.use(express.json()); // body 사용 설정
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 // 사용자 정의 라우트 가져오기
 const indexRouter = require("./routes/indexRoute");
