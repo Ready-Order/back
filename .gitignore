@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,macos,windows
 
+
 ### macOS ###
 # General
 .DS_Store
@@ -220,3 +221,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,macos,windows
+
+build/

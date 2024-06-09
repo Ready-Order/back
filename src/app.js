@@ -15,11 +15,16 @@ const orderRouter = require("./routes/orderRoute");
 
 app.use(cors());
 
+app.use("/", express.static("build")); // react SPA 경로
+app.use("/", (req,res,next)=>{
+  res.sendFile("build/index.html");
+})
+
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
 router.use("/src/uploads/images", express.static("src/uploads/images")); // 이미지 업로드 경로 설정
 
-router.use("", indexRouter); // hello world
+router.use("/", indexRouter); // hello world
 router.use("/menus", menuRouter); // menu 관련 라우팅 (메뉴 CRUD)
 router.use("/users", userRouter); // users 관련 라우팅 (로그인, 로그아웃)
 router.use("/orders", orderRouter); // orders 관련 라우팅 (주문하기, 주문내역)
@@ -36,6 +41,10 @@ app.use((error, req, res, next) => {
   }
   res.status(error.code || 500);
   res.json({ message: error.message || "An unknown error occurred!" });
+});
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join('build/index.html'));
 });
 
 // mongoose db연결
