@@ -1,0 +1,115 @@
+[
+    "메뉴 생성",
+    {
+        "title":"저녁빵",
+        "price":2000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#아침에 먹는 빵임 #시차 때문에 미국에서는 저녁빵이라고 불림.",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "사이드",
+        "available": true
+    },
+    {
+        "title":"모닝빵",
+        "price":2000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#저녁에 먹는 빵임 #시차 때문에 한국에서는 모닝빵이라고 불림.",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "사이드",
+        "available": true
+    },
+    {
+        "title":"교촌치킨",
+        "price":24000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#엄청비쌈 #너무 비싸서 한 달에 한 번 먹을까 말까 #승엽이가 좋아함",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "메인",
+        "available": true
+    },
+    {
+        "title":"반미 느엉",
+        "price":3500,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#신지훈이 좋아함 #신지훈 느엉",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "사이드",
+        "available": true
+    },
+    {
+        "title":"건강 마라탕",
+        "price":8000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#건강한 마라탕 #야채가 듬뿍",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "메인",
+        "available": true
+    },
+    {
+        "title":"코카콜라",
+        "price":2000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#설탕 듬뿍 #제로 아님 #승현이가 좋아함",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "음료",
+        "available": true
+    },
+    {
+        "title":"아메리카노",
+        "price":1500,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#미국 커피 #에프스레소에 물 탔음 #럭키한약",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "메인",
+        "available": true
+    },
+    {
+        "title":"소주",
+        "price":4000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#겁나 쌤 #빈티지 1999 #빨강뚜껑",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "주류",
+        "available": true
+    },
+    {
+        "title":"에반 리암닐슨",
+        "price":30000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#미국 위스키 #켄터키 위스키 #버번콕 추천",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "주류",
+        "available": true
+    },
+    {
+        "title":"닌텐도 스위치",
+        "price":200000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#일본산 물품 #사이드 컨텐츠 별도 구매 #신지훈이 좋아함",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "etc",
+        "available": true
+    },
+    {
+        "title":"황도연",
+        "price":5000,
+        "image_url" : "https://picsum.photos/200",
+        "tag":"#프론트엔드 잘 만듦 #맛있는거 잘 사줌",
+        "creator": "6648141264fced5eebd93f27",
+        "category": "시즌 한정 콜라보",
+        "available": true
+    },
+    "메뉴 주문하기",
+    {
+        "orders" : [
+            {
+                "menuItemId" : "6639ea4ba7e67a5f16fb0162",
+                "quantity" : 1
+            },
+            {
+                "menuItemId" : "663a1c434fe67d153b29c8ec",
+                "quantity" : 2
+            }
+        ]
+    }
+]
