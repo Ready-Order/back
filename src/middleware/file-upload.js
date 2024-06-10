@@ -13,7 +13,7 @@ const fileUpload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       //저장될 경로 지정
-      cb(null, "src/uploads/images");
+      cb(null, path.name(__dirname,"../src","uploads",""));
     },
     filename: (req, file, cb) => {
       const ext = MIME_TYPE_MAP[file.mimetype];
