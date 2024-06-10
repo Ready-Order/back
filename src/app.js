@@ -15,7 +15,12 @@ const menuRouter = require("./routes/menuRoute");
 const userRouter = require("./routes/userRoute");
 const orderRouter = require("./routes/orderRoute");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // 허용할 출처를 명시
+    credentials: true, // 자격 증명(쿠키, 인증 헤더 등) 허용
+  })
+);
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 
