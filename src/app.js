@@ -15,12 +15,26 @@ const menuRouter = require("./routes/menuRoute");
 const userRouter = require("./routes/userRoute");
 const orderRouter = require("./routes/orderRoute");
 
-app.use(
-  cors({
-    origin: "*", // 허용할 출처를 명시
-    credentials: true, // 자격 증명(쿠키, 인증 헤더 등) 허용
-  })
-);
+// 허용할 도메인 목록
+const allowedOrigins = [
+  "https://ready-order.swdev.kr",
+  "http://localhost:3000",
+  "http://ready-order.shop:335",
+];
+// CORS 설정
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg =
+        "The CORS policy for this site does not allow access from the specified Origin.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use("/api", router); // 최상위 path를 "/api"로 지정하기
 

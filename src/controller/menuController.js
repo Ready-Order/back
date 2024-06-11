@@ -11,7 +11,11 @@ const getMenuItemsByUserId = async (req, res, next) => {
   const { userId } = req.params;
 
   // 카테고리 가져오기
-  let menuItems;
+  console.log("userId", typeof userId, userId);
+  if (userId == "undefined") {
+    console.log("undefined");
+    return;
+  }
   try {
     menuItems = await MenuItem.find({ creator: userId });
   } catch (err) {
@@ -102,7 +106,7 @@ const createMenuItem = async (req, res, next) => {
   const createdMenuItem = new MenuItem({
     title: title,
     price: price,
-    image_url: req.file.path,
+    image_url: req.image_path + req.file.filename,
     tag: tag,
     creator: creator,
     category: category,
@@ -205,11 +209,17 @@ const deleteMenuItem = async (req, res, next) => {
   } catch (err) {
     return next(simpleServerError);
   }
+  console.log(1);
+  if (menuItem == null) {
+    return next(simpleServerError);
+  }
+  console.log(2);
 
   if (menuItem.creator.id !== req.userData.TK_id) {
     const error = new HttpError("Not your property", 403);
     return next(error);
   }
+  console.log(3);
 
   const sess = await mongoose.startSession();
   try {
@@ -224,6 +234,7 @@ const deleteMenuItem = async (req, res, next) => {
     sess.endSession();
     return next(simpleServerError);
   }
+  console.log(4);
 
   res.status(200).json({ message: "Deleted place.", menuItemId: menuItem._id });
 };

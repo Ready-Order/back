@@ -1,5 +1,6 @@
 const multer = require("multer");
 const { v1: uuidv1 } = require("uuid");
+const path = require("path");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -13,7 +14,8 @@ const fileUpload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       //저장될 경로 지정
-      cb(null, path.name(__dirname,"../src","uploads",""));
+      cb(null, path.join(__dirname, "../uploads", "images"));
+      req.image_path = "/" + path.join("src", "uploads", "images") + "/";
     },
     filename: (req, file, cb) => {
       const ext = MIME_TYPE_MAP[file.mimetype];
