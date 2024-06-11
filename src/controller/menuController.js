@@ -3,7 +3,7 @@ const { HttpError, simpleServerError } = require("../models/http-error");
 const MenuItem = require("../models/menuItem");
 const User = require("../models/user");
 
-const CATEGORY = ["사이드", "메인", "음료", "주류", "etc", "시즌 메뉴"];
+const CATEGORY = ["신메뉴", "사이드", "메인", "음료", "주류", "etc", "시즌 메뉴"];
 
 const getMenuItemsByUserId = async (req, res, next) => {
   // 1. 카테고리 가져오기
