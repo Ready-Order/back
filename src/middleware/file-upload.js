@@ -9,8 +9,9 @@ const MIME_TYPE_MAP = {
 }; //도우미 상수
 //multer는 40개 업로드된 파일에서 인식한 MIME 타입 정보 제공하는데, MIME타입 매핑으로 알맞은 확장자 판별
 
+const fileMaxSize = 100000000000;
 const fileUpload = multer({
-  limits: { fileSize: 1000000 }, //용량제한
+  limits: { fileSize: fileMaxSize }, //용량제한
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       //저장될 경로 지정
