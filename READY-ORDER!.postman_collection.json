@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "f1aef6b2-8c46-4f93-8d31-c1025c5fd7b8",
+		"name": "READY-ORDER!",
+		"description": "레디오더 백엔드api 문서입니다.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32685649"
+	},
+	"item": [
+		{
+			"name": "MenuItem",
+			"item": [
+				{
+					"name": "create menu",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bear {{jwt}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"title\":\"닥뽁끔탕_etc\",\n        \"price\":2000,\n        \"image_url\" : \"https://picsum.photos/200\",\n        \"tag\":\"#닳뽁음탕\",\n        \"creator\": \"6648141264fced5eebd93f27\",\n        \"category\": \"etc\",\n        \"available\": true\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								""
+							]
+						},
+						"description": "``` javascript\nconst menuSchema = new Schema({\n  title: { type: String, required: true },\n  image_url: { type: String, required: true },\n  price: { type: Number, required: true },\n  tag: { type: String, required: false },\n  creator: { type: mongoose.Types.ObjectId, required: true, ref: \"User\" },\n  categoty: { type: String, required: false },\n  available: { type: Boolean, default: true },\n});\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "get menus by userId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/{{userId}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put menu by menuId",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bear {{jwt}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"limitid 저녁빵_mk2\",\n    \"price\":40000,\n    \"image_url\" : \"https://picsum.photos/200\",\n    \"tag\":\"#아침에 먹는 빵임_mk2 #시차 때문_MK2\",\n    \"creator\": \"6638862ce7596046ed2b4490\",\n    \"category\": \"사이드\",\n    \"available\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/{{menuId}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								"{{menuId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "del menu by menuId",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bear {{jwt}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/{{menuId}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								"{{menuId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/categories/{{userId}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								"categories",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update all demo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/update-demo/{{userId}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								"update-demo",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "메뉴 활성 비활성 수정",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bear {{jwt}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"available\" : true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/menus/{{menuId}}/available",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"menus",
+								"{{menuId}}",
+								"available"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "mongodb의 `menu` Collenction에 접근할 수 있습니다.\n\n# 개요\n\n메뉴와 관련된 api가 정의되어 있습니다.\n\nuserId가 필요합니다. userId는 두가지를 사용해 주시길 바랍니다.\n\n```\nHashedDaeKyu@email.com : 663a22f85cd55b4be98dd2a9 // 음식 없음\nsinj_mk2@email.com : 663b9210f664524467321a91 // 음식 있음\n\n ```\n\n## 주요 기능\n\n메뉴 생성 CRUD 기능이 정의되어 있습니다.\n\n카테고리를 가져올 수 있습니다.\n\n# 스키마 모양\n\n``` javascript\nconst menuSchema = new Schema({\n  title: { type: String, required: true },\n  image_url: { type: String, required: true },\n  price: { type: Number, required: true },\n  tag: { type: String, required: false },\n  creator: { type: mongoose.Types.ObjectId, required: true, ref: \"User\" },\n  category: { type: String, required: false },\n  available: { type: Boolean, default: true },\n});\n\n ```"
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "join",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"daekyu\",\n    \"email\":\"daekyu@email.com\",\n    \"password\":\"daekyu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/users/join",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"join"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"DevUser@email.com\",\n    \"password\":\"DevUser\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/users/login",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "mongoDB의 `users` Collection에 접근할 수 있습니다.\n\n회원가입, 로그인 기능이 정의되어 있습니다.\n\n``` javascript\n// email부분은 중복될 수 없음\nconst userSchema = new Schema({\n  name: { type: String, required: true },\n  email: { type: String, required: true, unique: true },\n  password: { type: String, required: true, minlength: 6 },\n  menuItems: [{ type: mongoose.Types.ObjectId, required: true, ref: \"Menu\" }],\n});\n\n ```"
+		},
+		{
+			"name": "OngoingOrder",
+			"item": [
+				{
+					"name": "주문 넣기",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orders\" : [\n        {\n            \"menuItemId\" : \"664816506874c31e4f06ba5c\",\n            \"quantity\" : 1\n        },\n        {\n            \"menuItemId\" : \"6648164a6874c31e4f06ba58\",\n            \"quantity\" : 2\n        },\n        {\n            \"menuItemId\" : \"6648167a6874c31e4f06ba78\",\n            \"quantity\" : 2\n        },\n        {\n            \"menuItemId\" : \"664816696874c31e4f06ba6c\",\n            \"quantity\" : 4\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/orders/{{tableNumber}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"orders",
+								"{{tableNumber}}"
+							]
+						},
+						"description": "``` json\n{\n    \"order\" : [\n        {\n            \"menuItemId\" : \"메뉴 아이템 아이디 보내줘\",\n            \"quantity\" : \"갯수:int\"\n        },\n        {\n            \"menuItemId\" : \"메뉴 아이템 아이디 보내줘\",\n            \"quantity\" : \"갯수:int\"\n        }\n    ]\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "테이블 초기화",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/orders/10",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"orders",
+								"10"
+							]
+						},
+						"description": "테이블 장사 접습니다. 초기화 해주세요"
+					},
+					"response": []
+				},
+				{
+					"name": "주문 내역 가져오기",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/orders/{{tableNumber}}",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"orders",
+								"{{tableNumber}}"
+							]
+						},
+						"description": "``` json\n{\norder: [\n{\n    메뉴 정보\n},\n{\n    메뉴 정보\n}\n]\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "테이블 계산서 가져오기",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/orders/{{tableNumber}}/bill",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"orders",
+								"{{tableNumber}}",
+								"bill"
+							]
+						},
+						"description": "메뉴와 몇개 주문했는지\n\n총 얼마인지 (실제로 있는 계산서 참고)"
+					},
+					"response": []
+				},
+				{
+					"name": "table_init",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}:{{port}}/api/orders/demo/10",
+							"host": [
+								"{{ip}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"orders",
+								"demo",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "주문을 넣습니다."
+		},
+		{
+			"name": "memo",
+			"item": [
+				{
+					"name": "메뉴 생성",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+		}
+	]
+}
