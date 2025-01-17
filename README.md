@@ -1,5 +1,7 @@
 # 프로젝트 이름
 ![image](https://github.com/user-attachments/assets/c3f7fad2-3154-4567-9e31-362688bea9ea)
+![image](https://github.com/user-attachments/assets/e168aa92-810d-488e-b7a9-cc7c320a5434)
+![image](https://github.com/user-attachments/assets/148ba1a6-832a-4153-b6c7-b650d622dfa2)
 
 # SSE 실시간 통신
 ![Slide13](https://github.com/user-attachments/assets/200ebc75-f5fd-4cdb-b357-e8888d6e5f7a)
